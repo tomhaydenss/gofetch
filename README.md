@@ -51,7 +51,9 @@ This is a set of base changes we'd like to see. There are a lot of ways you coul
 - Update the `get_appointments_by_date/1` function in `lib/go_fetch/application/appointment.ex` to return only the appointments within the given timeframe
 - Update the dropdown in `assets/js/Home.js` to filter the displayed appointments by the name of the doctor selected.
 - Update the appointments list in `assets/js/Home.js` to display by appointment date and time.
-- Make any improvements to the code that you can.
+- Make any improvements/refactors to the code that you can.
+- When you are complete, you must commit to a new branch in the Replit.
+  - Open the version control tab, create a new branch, and commit & push to it.
 
 If you're stuck thinking about what kinds of improvements you could make, consider our code structure, accessibility, security, etc. You can leave improvements as `TODO`s if you have clear & explicit ideas of what you'd change.
 
