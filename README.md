@@ -8,7 +8,7 @@ We have an example application that is displaying a list of the current week's a
 
 On the backend we are currently returning all of the appointments from the DB, we need to update this to only query for the relevant appointments.
 
-On the frontend we are displaying a list of appointments and have a dropdown to filter by the name of the doctor. We want these appointments to be displayed in date/time order and to update the dropdown so that it only shows the selected doctor's appointments.
+On the frontend we are displaying a list of appointments and have a dropdown to filter by the name of the doctor. We want these appointments to be displayed in date/time order and to update the app so that it only shows the selected doctor's appointments.
 
 ![Coding Test](https://user-images.githubusercontent.com/8868192/147288968-99123785-fe4c-460c-939c-5e679b33097c.png)
 
@@ -59,7 +59,7 @@ If you're stuck thinking about what kinds of improvements you could make, consid
 
 ### Testing
 
-- Run `mix test` to check against the unit test for `get_appointments_by_date/1` filtering.
+- Run `mix test` to check against the unit test for `get_appointments_by_date/1` filtering. Feel free to add more tests!
 
 ### Relevant Files
 
