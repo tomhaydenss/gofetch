@@ -53,6 +53,14 @@ const getEndOfWeek = (date) => {
 const startDate = getStartOfWeek(new Date());
 const endDate = getEndOfWeek(new Date());
 
+const appointment_sorting = (one, another) => {
+  return new Date(one.date).getTime() - new Date(another.date).getTime();
+}
+
+const appointment_mapping = (appointment) => {
+  return { date: appointment.date, pet: { name: appointment.pet.name }, doctor: { lastName: appointment.doctor.lastName } };
+}
+
 /**
  * 1. Update appointments to be sorted by their date/time
  * 2. Update the select to filter appointments by doctor
@@ -72,7 +80,7 @@ const Home = () => {
           <option value={doctor.id}>Dr. {doctor.lastName}</option>
         ))}
       </select>
-      {appointmentResult?.data?.appointments?.map((appointment) => (
+      {appointmentResult?.data?.appointments?.map(appointment_mapping).sort(appointment_sorting).map((appointment) => (
         <div className="appointment">
           <span className="appointment-date">{appointment.date}</span>
           <span>
