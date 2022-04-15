@@ -16,7 +16,8 @@ defmodule GoFetch.Appointment do
   Update this function to return all appointments within the given range.
   """
   def get_appointments_by_date(%{start_date: start_date, end_date: end_date}) do
-    Repo.all(__MODULE__)
+    query = from(a in __MODULE__, where: a.date >= ^start_date, where: a.date <= ^end_date)
+    Repo.all(query)
   end
 
   schema "appointments" do
