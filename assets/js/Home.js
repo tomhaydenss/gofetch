@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery, gql } from "@apollo/client";
 
 import "../css/app.scss";
@@ -53,34 +53,66 @@ const getEndOfWeek = (date) => {
 const startDate = getStartOfWeek(new Date());
 const endDate = getEndOfWeek(new Date());
 
-const appointment_sorting = (one, another) => {
-  return new Date(one.date).getTime() - new Date(another.date).getTime();
-}
-
-const appointment_mapping = (appointment) => {
-  return { date: appointment.date, pet: { name: appointment.pet.name }, doctor: { lastName: appointment.doctor.lastName } };
-}
-
 /**
  * 1. Update appointments to be sorted by their date/time
  * 2. Update the select to filter appointments by doctor
  * 3. Make any improvements to the code you can
  */
 const Home = () => {
+  const doctorResult = useQuery(LIST_DOCTORS);
+  const {data: doctorData} = doctorResult;
+  const [doctors, setDoctors] = useState([]);
+  useEffect(() => {
+    if (doctorData) {
+      setDoctors(doctorData.doctors)
+    }
+  }, [doctorData]);
+
   const appointmentResult = useQuery(LIST_APPOINTMENTS, {
     variables: { startDate, endDate },
   });
-  const doctorResult = useQuery(LIST_DOCTORS);
+  const {data: appointmentData} = appointmentResult;
+  const [appointments, setAppointments] = useState([]);
+  const filterAndSortAppointments = () => {
+    return appointmentData.appointments.filter(filter_by_doctor).sort(sort_by_date);
+  }
+  useEffect(() => {
+    if (appointmentData) {
+      setAppointments(filterAndSortAppointments);
+    }
+  }, [appointmentData]);
+
+  const sort_by_date = (one, another) => {
+    return new Date(one.date).getTime() - new Date(another.date).getTime();
+  }
+  
+  const filter_by_doctor = (appointment) => {
+    if (currentDoctor == appointment.doctor.id) {
+      return appointment;
+    }
+  }
+
+  const [currentDoctor, setCurrentDoctor] = useState("");
+  const handleDoctorsDropdownChangeEvent = (event) => {
+    setCurrentDoctor(event.target.value);
+  }
+
+  useEffect(() => {
+    if (appointmentData) {
+      setAppointments(filterAndSortAppointments);
+    }
+  }, [currentDoctor])
 
   return (
     <div className="app">
       <h1>This Week's Appointments</h1>
-      <select>
-        {doctorResult?.data?.doctors?.map((doctor) => (
-          <option value={doctor.id}>Dr. {doctor.lastName}</option>
+      <select value={currentDoctor} onChange={handleDoctorsDropdownChangeEvent}>
+        <option value="" disabled hidden>Choose your Doctor here</option>
+        {doctors.map((doctor) => (
+          <option value={doctor.id}>{doctor.id} - Dr. {doctor.lastName}</option>
         ))}
       </select>
-      {appointmentResult?.data?.appointments?.map(appointment_mapping).sort(appointment_sorting).map((appointment) => (
+      {appointments.map((appointment) => (
         <div className="appointment">
           <span className="appointment-date">{appointment.date}</span>
           <span>
