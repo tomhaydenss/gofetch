@@ -1,0 +1,19 @@
+{
+    "skip_files": [
+        "lib/go_fetch/application.ex",
+        "lib/go_fetch_web.ex",
+        "lib/go_fetch_web/telemetry.ex",
+        "lib/go_fetch_web/channels/user_socket.ex",
+        "lib/go_fetch_web/views/error_helpers.ex",
+        "lib/go_fetch_web/views/error_view.ex",
+        "test"
+    ],
+    "coverage_options": {
+        "treat_no_relevant_lines_as_covered": true,
+        "output_dir": "cover/",
+        "minimum_coverage": 95
+    },
+    "terminal_options": {
+        "file_column_width": 100
+    }
+}

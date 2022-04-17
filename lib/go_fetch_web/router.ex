@@ -8,6 +8,7 @@ defmodule GoFetchWeb.Router do
     plug :protect_from_forgery
   end
 
+  # coveralls-ignore-start
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -17,12 +18,6 @@ defmodule GoFetchWeb.Router do
     forward("/graphiql", Absinthe.Plug.GraphiQL, schema: GoFetchWeb.Schema)
 
     forward "/", Absinthe.Plug, schema: GoFetchWeb.Schema, log_level: :info
-  end
-
-  scope "/", GoFetchWeb do
-    pipe_through :browser
-
-    get "/*path", PageController, :index
   end
 
   # Enables LiveDashboard only for development
@@ -39,5 +34,13 @@ defmodule GoFetchWeb.Router do
       pipe_through :browser
       live_dashboard "/dashboard", metrics: GoFetchWeb.Telemetry
     end
+  end
+
+  # coveralls-ignore-stop
+
+  scope "/", GoFetchWeb do
+    pipe_through :browser
+
+    get "/", PageController, :index
   end
 end
