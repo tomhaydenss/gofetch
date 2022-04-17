@@ -23,11 +23,11 @@ defmodule GoFetchWeb.Router do
   scope "/api" do
     pipe_through :api
 
-    forward("/", Absinthe.Plug, schema: GoFetchWeb.Schema, log_level: :info)
-
     if Mix.env() == :dev do
       forward("/graphiql", Absinthe.Plug.GraphiQL, schema: GoFetchWeb.Schema)
     end
+
+    forward("/", Absinthe.Plug, schema: GoFetchWeb.Schema, log_level: :info)
   end
 
   # coveralls-ignore-start
