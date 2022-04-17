@@ -6,20 +6,31 @@ defmodule GoFetchWeb.Router do
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
+    plug :put_secure_browser_headers
   end
 
-  # coveralls-ignore-start
   pipeline :api do
     plug :accepts, ["json"]
   end
 
-  # Other scopes may use custom stacks.
-  scope "/api" do
-    forward("/graphiql", Absinthe.Plug.GraphiQL, schema: GoFetchWeb.Schema)
+  scope "/", GoFetchWeb do
+    pipe_through :browser
 
-    forward "/", Absinthe.Plug, schema: GoFetchWeb.Schema, log_level: :info
+    get "/", PageController, :index
   end
 
+  # Other scopes may use custom stacks.
+  scope "/api" do
+    pipe_through :api
+
+    forward("/", Absinthe.Plug, schema: GoFetchWeb.Schema, log_level: :info)
+
+    if Mix.env() == :dev do
+      forward("/graphiql", Absinthe.Plug.GraphiQL, schema: GoFetchWeb.Schema)
+    end
+  end
+
+  # coveralls-ignore-start
   # Enables LiveDashboard only for development
   #
   # If you want to use the LiveDashboard in production, you should put
@@ -37,10 +48,4 @@ defmodule GoFetchWeb.Router do
   end
 
   # coveralls-ignore-stop
-
-  scope "/", GoFetchWeb do
-    pipe_through :browser
-
-    get "/", PageController, :index
-  end
 end

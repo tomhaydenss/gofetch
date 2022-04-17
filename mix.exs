@@ -17,6 +17,7 @@ defmodule GoFetch.MixProject do
       ],
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [
+        sobelow: :test,
         coveralls: :test,
         "coveralls.detail": :test,
         "coveralls.post": :test,
@@ -66,7 +67,8 @@ defmodule GoFetch.MixProject do
       {:dataloader, "~> 1.0.2"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:excoveralls, "~> 0.10", only: [:dev, :test]}
+      {:excoveralls, "~> 0.10", only: [:dev, :test]},
+      {:sobelow, "~> 0.8", only: [:dev, :test]}
     ]
   end
 
@@ -82,11 +84,12 @@ defmodule GoFetch.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      quality: ["format", "credo --strict", "coveralls.html", "dialyzer"],
+      quality: ["format", "credo --strict", "coveralls.html", "sobelow --config", "dialyzer"],
       "quality.ci": [
         "format --check-formatted",
         "credo --strict",
         "coveralls.html --raise",
+        "sobelow --config",
         "dialyzer"
       ]
     ]
