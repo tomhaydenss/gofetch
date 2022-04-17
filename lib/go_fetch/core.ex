@@ -1,13 +1,16 @@
 defmodule GoFetch.Core do
+  @moduledoc """
+  The Core context.
+  """
   import Ecto.Query
-  alias GoFetch.Repo
-  alias GoFetch.Core.Doctor
   alias GoFetch.Core.Appointment
+  alias GoFetch.Core.Doctor
+  alias GoFetch.Repo
 
   @doc """
   Get all doctors
   """
-  def get_doctors() do
+  def get_doctors do
     Repo.all(from Doctor, order_by: [:last_name])
   end
 

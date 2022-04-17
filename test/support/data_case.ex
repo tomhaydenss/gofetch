@@ -16,6 +16,8 @@ defmodule GoFetch.DataCase do
 
   use ExUnit.CaseTemplate
 
+  alias Ecto.Adapters.SQL.Sandbox
+
   using do
     quote do
       alias GoFetch.Repo
@@ -28,10 +30,10 @@ defmodule GoFetch.DataCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(GoFetch.Repo)
+    :ok = Sandbox.checkout(GoFetch.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(GoFetch.Repo, {:shared, self()})
+      Sandbox.mode(GoFetch.Repo, {:shared, self()})
     end
 
     :ok

@@ -10,7 +10,11 @@ defmodule GoFetch.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      dialyzer: [
+        plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
+        ignore_warnings: ".dialyzer_ignore.exs"
+      ]
     ]
   end
 
@@ -52,7 +56,9 @@ defmodule GoFetch.MixProject do
       {:absinthe, "~> 1.6.0", override: true},
       {:absinthe_plug, "~> 1.5.0-alpha.0"},
       {:absinthe_ecto, ">= 0.0.0"},
-      {:dataloader, "~> 1.0.2"}
+      {:dataloader, "~> 1.0.2"},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false}
     ]
   end
 
@@ -67,7 +73,14 @@ defmodule GoFetch.MixProject do
       setup: ["deps.get", "ecto.setup", "cmd npm install --prefix assets"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      quality: ["format", "credo --strict", "test", "dialyzer"],
+      "quality.ci": [
+        "test",
+        "format --check-formatted",
+        "credo --strict",
+        "dialyzer --halt-exit-status"
+      ]
     ]
   end
 end

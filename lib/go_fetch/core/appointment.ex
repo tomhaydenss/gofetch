@@ -7,8 +7,8 @@ defmodule GoFetch.Core.Appointment do
   import Ecto.Changeset
 
   alias GoFetch.Core.Doctor
-  alias GoFetch.Core.User
   alias GoFetch.Core.Pet
+  alias GoFetch.Core.User
 
   schema "appointments" do
     field :date, :utc_datetime

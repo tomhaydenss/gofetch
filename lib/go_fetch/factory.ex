@@ -1,7 +1,5 @@
 defmodule GoFetch.Factory do
-  @moduledoc """
-
-  """
+  @moduledoc false
 
   use ExMachina.Ecto, repo: GoFetch.Repo
 
