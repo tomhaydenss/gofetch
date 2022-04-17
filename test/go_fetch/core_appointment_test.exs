@@ -1,6 +1,6 @@
-defmodule GoFetch.AppointmentTest do
-  use ExUnit.Case
-  alias GoFetch.Appointment
+defmodule GoFetch.CoreAppointmentTest do
+  use GoFetch.DataCase
+  alias GoFetch.Core
 
   import GoFetch.Factory
 
@@ -8,8 +8,6 @@ defmodule GoFetch.AppointmentTest do
   @thirty_days_in_seconds 2_592_000
 
   setup do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(GoFetch.Repo)
-
     # Search start & end points
     start_search_today = DateTime.utc_now()
     end_search_in_two_days = DateTime.add(start_search_today, @two_days_in_seconds)
@@ -46,7 +44,7 @@ defmodule GoFetch.AppointmentTest do
         })
 
       appointments =
-        Appointment.get_appointments_by_date(%{
+        Core.get_appointments_by_date(%{
           start_date: DateTime.to_string(start_search_today),
           end_date: DateTime.to_string(end_search_in_two_days)
         })
@@ -94,7 +92,7 @@ defmodule GoFetch.AppointmentTest do
       end_date = DateTime.to_string(end_search_in_two_days)
 
       appointments =
-        Appointment.get_appointments_by_date_and_doctor(start_date, end_date, good_doctor.id)
+        Core.get_appointments_by_date_and_doctor(start_date, end_date, good_doctor.id)
 
       assert length(appointments) == 1
       [appointment] = appointments

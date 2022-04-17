@@ -1,4 +1,4 @@
-defmodule GoFetch.User do
+defmodule GoFetch.Core.User do
   @moduledoc """
    the user schema
   """
@@ -6,8 +6,8 @@ defmodule GoFetch.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias GoFetch.Pet
-  alias GoFetch.Appointment
+  alias GoFetch.Core.Pet
+  alias GoFetch.Core.Appointment
 
   schema "users" do
     field :email, :string

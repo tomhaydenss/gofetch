@@ -1,4 +1,4 @@
-defmodule GoFetch.Pet do
+defmodule GoFetch.Core.Pet do
   @moduledoc """
    the pet schema
   """
@@ -6,7 +6,7 @@ defmodule GoFetch.Pet do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias GoFetch.User
+  alias GoFetch.Core.User
 
   schema "pets" do
     field :name, :string

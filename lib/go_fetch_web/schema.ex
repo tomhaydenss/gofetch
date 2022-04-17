@@ -5,7 +5,7 @@ defmodule GoFetchWeb.Schema do
 
   use Absinthe.Schema
 
-  alias GoFetch.Controller
+  alias GoFetch.Repo
 
   import_types(GoFetchWeb.Schema.AppointmentTypes)
 
@@ -19,7 +19,7 @@ defmodule GoFetchWeb.Schema do
   def context(ctx) do
     loader =
       Dataloader.new()
-      |> Dataloader.add_source(Controller, Controller.data())
+      |> Dataloader.add_source(Repo, Dataloader.Ecto.new(GoFetch.Repo))
 
     Map.put(ctx, :loader, loader)
   end

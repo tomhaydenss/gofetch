@@ -1,21 +1,12 @@
-defmodule GoFetch.Doctor do
+defmodule GoFetch.Core.Doctor do
   @moduledoc """
    the doctor schema
   """
 
   use Ecto.Schema
   import Ecto.Changeset
-  import Ecto.Query
 
-  alias GoFetch.Appointment
-  alias GoFetch.Repo
-
-  @doc """
-  Get all doctors
-  """
-  def get_doctors() do
-    Repo.all(__MODULE__)
-  end
+  alias GoFetch.Core.Appointment
 
   schema "doctors" do
     field :first_name, :string

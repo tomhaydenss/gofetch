@@ -5,18 +5,19 @@ defmodule GoFetchWeb.Schema.AppointmentTypes do
   use Absinthe.Schema.Notation
   import Absinthe.Resolution.Helpers
 
-  alias GoFetch.Controller
+  alias GoFetch.Repo
+  alias GoFetchWeb.Resolvers.Core
 
   object :application_queries do
     field :doctors, list_of(:doctor) do
-      resolve(&GoFetchWeb.Resolvers.Application.list_doctors/3)
+      resolve(&Core.list_doctors/3)
     end
 
     field :appointments, list_of(:appointment) do
       arg(:start_date, non_null(:string))
       arg(:end_date, non_null(:string))
       arg(:doctor_id, :id)
-      resolve(&GoFetchWeb.Resolvers.Application.list_appointments/3)
+      resolve(&Core.list_appointments/3)
     end
   end
 
@@ -25,9 +26,9 @@ defmodule GoFetchWeb.Schema.AppointmentTypes do
     field :date, :datetime
     field :reason, :string
 
-    field :user, :user, resolve: dataloader(Controller)
-    field :pet, :pet, resolve: dataloader(Controller)
-    field :doctor, :doctor, resolve: dataloader(Controller)
+    field :user, :user, resolve: dataloader(Repo)
+    field :pet, :pet, resolve: dataloader(Repo)
+    field :doctor, :doctor, resolve: dataloader(Repo)
   end
 
   object :user do
@@ -36,7 +37,7 @@ defmodule GoFetchWeb.Schema.AppointmentTypes do
     field :email, :string
 
     field :pets, list_of(:pet) do
-      resolve(dataloader(Controller, :pets))
+      resolve(dataloader(Repo, :pets))
     end
   end
 
