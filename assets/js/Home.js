@@ -104,10 +104,17 @@ const Home = () => {
 
   return (
     <div className="app">
-      <h1>This Week's Appointments</h1>
-      <DoctorsDropdown items={doctors} currentDoctor={currentDoctor} setCurrentDoctor={setCurrentDoctor} />
+      <div class="notebook-top">
+        <h1>This Week's Appointments</h1>
+        <div class="week-period">from <span class="date">{startDate.toLocaleDateString()}</span> to <span class="date">{endDate.toLocaleDateString()}</span></div>
+        <DoctorsDropdown items={doctors} currentDoctor={currentDoctor} setCurrentDoctor={setCurrentDoctor} />
+      </div>
       <AppointmentList items={appointments} />
+      <div class="notebook-bottom">
+        <div class="gofetch-logo"></div>
+      </div>
     </div>
+
   );
 };
 

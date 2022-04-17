@@ -6,11 +6,13 @@ export default function DoctorsDropdown({ items, currentDoctor, setCurrentDoctor
   }
 
   return (
-    <select value={currentDoctor} onChange={handleDoctorsDropdownChangeEvent}>
-      <option value="" disabled hidden>Choose your Doctor here</option>
-      {items.map((doctor) => (
-        <option value={doctor.id}>Dr. {doctor.lastName}</option>
-      ))}
-    </select>
+    <div class="doctors-dropdown">
+      <select value={currentDoctor} onChange={handleDoctorsDropdownChangeEvent}>
+        <option value="" disabled hidden>Choose your Doctor here</option>
+        {items.map((doctor) => (
+          <option value={doctor.id}>Dr. {doctor.lastName}</option>
+        ))}
+      </select>
+    </div>
   )
 }
