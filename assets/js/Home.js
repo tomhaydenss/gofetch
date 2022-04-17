@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useQuery, gql } from "@apollo/client";
+import AppointmentList from "./AppointmentList";
+import DoctorsDropdown from "./DoctorsDropdown";
 
 import "../css/app.scss";
 
@@ -60,7 +62,7 @@ const endDate = getEndOfWeek(new Date());
  */
 const Home = () => {
   const doctorResult = useQuery(LIST_DOCTORS);
-  const {data: doctorData} = doctorResult;
+  const { data: doctorData } = doctorResult;
   const [doctors, setDoctors] = useState([]);
   useEffect(() => {
     if (doctorData) {
@@ -71,7 +73,7 @@ const Home = () => {
   const appointmentResult = useQuery(LIST_APPOINTMENTS, {
     variables: { startDate, endDate },
   });
-  const {data: appointmentData} = appointmentResult;
+  const { data: appointmentData } = appointmentResult;
   const [appointments, setAppointments] = useState([]);
   const filterAndSortAppointments = () => {
     return appointmentData.appointments.filter(filter_by_doctor).sort(sort_by_date);
@@ -85,7 +87,7 @@ const Home = () => {
   const sort_by_date = (one, another) => {
     return new Date(one.date).getTime() - new Date(another.date).getTime();
   }
-  
+
   const filter_by_doctor = (appointment) => {
     if (currentDoctor == appointment.doctor.id) {
       return appointment;
@@ -93,9 +95,6 @@ const Home = () => {
   }
 
   const [currentDoctor, setCurrentDoctor] = useState("");
-  const handleDoctorsDropdownChangeEvent = (event) => {
-    setCurrentDoctor(event.target.value);
-  }
 
   useEffect(() => {
     if (appointmentData) {
@@ -106,20 +105,8 @@ const Home = () => {
   return (
     <div className="app">
       <h1>This Week's Appointments</h1>
-      <select value={currentDoctor} onChange={handleDoctorsDropdownChangeEvent}>
-        <option value="" disabled hidden>Choose your Doctor here</option>
-        {doctors.map((doctor) => (
-          <option value={doctor.id}>{doctor.id} - Dr. {doctor.lastName}</option>
-        ))}
-      </select>
-      {appointments.map((appointment) => (
-        <div className="appointment">
-          <span className="appointment-date">{appointment.date}</span>
-          <span>
-            {appointment.pet.name} with Dr. {appointment.doctor.lastName}{" "}
-          </span>
-        </div>
-      ))}
+      <DoctorsDropdown items={doctors} currentDoctor={currentDoctor} setCurrentDoctor={setCurrentDoctor} />
+      <AppointmentList items={appointments} />
     </div>
   );
 };
